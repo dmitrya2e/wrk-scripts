@@ -31,14 +31,25 @@ function non_empty_lines_from(file)
   return shuffle(lines)
 end
 
-paths = non_empty_lines_from("paths.txt")
+paths = nil
 
-if #paths <= 0 then
-  print("multiplepaths: No paths found. You have to create a file paths.txt with one path per line")
-  os.exit()
+function init(args)
+    paths_location = args[1]
+    
+    if paths_location == nil then
+        print("please specify the paths location as the first argument followed after --")
+        os.exit()
+    end
+    
+    paths = non_empty_lines_from(paths_location)
+    
+    if #paths <= 0 then
+      print("multiplepaths: No paths found. You have to create a file paths.txt with one path per line")
+      os.exit()
+    end
+    
+    print("multiplepaths: Found " .. #paths .. " paths")
 end
-
-print("multiplepaths: Found " .. #paths .. " paths")
 
 request = function()
     path = paths[counter]
